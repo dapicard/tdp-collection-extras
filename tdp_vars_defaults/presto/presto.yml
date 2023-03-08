@@ -1,0 +1,31 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# Presto version
+presto_release: presto-server-0.279
+presto_dist_file: "{{ presto_release }}.tar.gz"
+
+# Presto user and group
+presto_user: presto
+presto_group: hadoop
+
+# Presto installation directory
+presto_root_dir: /opt/tdp
+presto_install_dir: "{{ presto_root_dir }}/presto"
+
+# Presto configuration directories
+presto_root_conf_dir: /etc/presto
+presto_server_conf_dir: "{{ presto_root_conf_dir }}/conf.server"
+
+# Presto logging directory
+presto_log_dir: /var/log/presto
+
+# Presto data dir
+presto_data_dir: /data/presto/server
+
+# Service start on boot policies
+presto_start_on_boot: no
+
+# Service restart policies
+presto_restart: "no"

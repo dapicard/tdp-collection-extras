@@ -1,0 +1,29 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- import_role:
+    name: tosit.tdp.utils.kerberos
+    tasks_from: install
+
+- import_role:
+    name: tosit.tdp.utils.kerberos
+    tasks_from: create_principal_keytab
+  vars:
+    principal: "druid/{{ ansible_fqdn }}"
+    keytab: "druid.service.keytab"
+    user: "{{ druid_user }}"
+    group: "{{ druid_group }}"
+    mode: "600"
+  when: krb_create_principals_keytabs
+
+- import_role:
+    name: tosit.tdp.utils.kerberos
+    tasks_from: check_secure_keytab
+  vars:
+    principal: "druid/{{ ansible_fqdn }}"
+    keytab: "druid.service.keytab"
+    user: "{{ druid_user }}"
+    group: "{{ druid_group }}"
+    mode: "600"
+  when: not krb_create_principals_keytabs

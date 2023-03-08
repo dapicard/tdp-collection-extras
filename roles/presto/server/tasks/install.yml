@@ -1,0 +1,31 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- import_role:
+    name: tosit.tdp_extra.presto.common
+    tasks_from: install
+
+- name: Create configuration directory
+  file:
+    path: "{{ presto_server_conf_dir }}"
+    state: directory
+    group: "{{ presto_group }}"
+    owner: "{{ presto_user }}"
+    mode: "755"
+
+- name: Create data directories
+  file:
+    path: "{{ presto_data_dir }}"
+    state: directory
+    group: "{{ presto_group }}"
+    owner: "{{ presto_user }}"
+    mode: "750"
+
+- name: Template Presto Server service file
+  template:
+    src: presto-server.service.j2
+    dest: /usr/lib/systemd/system/presto-server.service
+    owner: root
+    group: root
+    mode: "644"

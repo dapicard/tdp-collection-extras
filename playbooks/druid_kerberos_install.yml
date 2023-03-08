@@ -1,0 +1,14 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Kerberos Druid install
+  hosts: druid_server
+  strategy: linear
+  tasks:
+    - tosit.tdp.resolve:
+        node_name: druid_kerberos
+    - import_role:
+        name: tosit.tdp_extra.druid.server
+        tasks_from: kerberos
+    - meta: clear_facts

@@ -1,0 +1,22 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Backup configuration
+  copy:
+    src: "{{ presto_server_conf_dir }}/"
+    dest: "{{ presto_server_conf_dir }}.{{ ansible_date_time.epoch }}"
+    group: "{{ presto_group }}"
+    owner: "{{ presto_user }}"
+    mode: "755"
+    remote_src: yes
+  tags:
+    - backup
+
+- name: Template presto-env.conf
+  template:
+    src: presto-env.conf.j2
+    dest: "{{ presto_server_conf_dir }}/presto-env.conf"
+    owner: root
+    group: root
+    mode: "644"

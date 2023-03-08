@@ -1,0 +1,17 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+
+# Druid user and group
+druid_user: druid
+druid_group: hadoop
+
+# Kerberos
+###
+# Set to 'no' to skip service principals and keytabs creation.
+# This can be useful if TDP operators don't have admin access to the Kerberos server,
+# or if the Kerberos server does not support MIT Kerberos tools.
+###
+krb_create_principals_keytabs: yes
+druid_headless_principal: druid

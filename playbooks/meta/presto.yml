@@ -1,0 +1,7 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- import_playbook: ../presto_server_install.yml
+# kafka_install
+- import_playbook: ../presto_server_config.yml

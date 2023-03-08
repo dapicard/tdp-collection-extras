@@ -1,0 +1,49 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- include_role:
+    name: tosit.tdp.utils.group
+  vars:
+    group: "{{ presto_user }}"
+
+- include_role:
+    name: tosit.tdp.utils.user
+  vars:
+    user: "{{ presto_user }}"
+    group: "{{ presto_group }}"
+
+- name: "Upload {{ presto_dist_file }}"
+  copy:
+    src: "files/{{ presto_dist_file }}"
+    dest: /tmp
+  diff: no
+
+- name: "Ensure {{ presto_root_dir }} exists"
+  file:
+    path: "{{ presto_root_dir }}"
+    state: directory
+
+- name: "Extract {{ presto_dist_file }}"
+  unarchive:
+    src: "/tmp/{{ presto_dist_file }}"
+    dest: "{{ presto_root_dir }}"
+    group: root
+    owner: root
+    mode: "755"
+    remote_src: yes
+    creates: "{{ presto_root_dir }}/{{ presto_release }}"
+
+- name: Create symbolic link to Presto installation
+  file:
+    src: "{{ presto_root_dir }}/{{ presto_release }}"
+    dest: "{{ presto_install_dir }}"
+    state: link
+
+- name: Create log directory
+  file:
+    path: "{{ presto_log_dir }}"
+    state: directory
+    group: "{{ presto_group }}"
+    owner: "{{ presto_user }}"
+    mode: "750"

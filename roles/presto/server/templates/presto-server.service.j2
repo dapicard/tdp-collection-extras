@@ -1,0 +1,17 @@
+[Unit]
+Description=Presto server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User={{ presto_user }}
+Group={{ presto_group }}
+Type=forking
+EnvironmentFile={{ presto_server_conf_dir }}/presto-env.conf
+ExecStart={{ presto_install_dir }}/bin/launcher --etc-dir={{ presto_server_conf_dir }} --data-dir={{ presto_data_dir }} --launcher-log-file={{ presto_log_dir }}/launcher.log --server-log-file={{ presto_log_dir }}/server.log start
+ExecStop={{ presto_install_dir }}/bin/launcher --etc-dir={{ presto_server_conf_dir }} --data-dir={{ presto_data_dir }} stop
+SuccessExitStatus=TERM
+Restart={{ presto_restart }}
+
+[Install]
+WantedBy=multi-user.target
